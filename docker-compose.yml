@@ -1,0 +1,26 @@
+version: '3.9.6'
+services:
+  web:
+    build: .
+    environment:
+      - ENV=${ENV}
+    command: python main.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:12.8
+    volumes:
+        - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    restart: always
